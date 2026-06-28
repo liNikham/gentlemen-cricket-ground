@@ -4,22 +4,40 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
+
 jobs:
   backend-ci:
+    name: Build & Test Backend
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: backend
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 24
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: backend/pnpm-lock.yaml
 
-    - name: Print Hello
-      run: echo "Hello from GitHub Actions!"
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.9.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --dangerously-allow-all-builds
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Run unit tests
+        run: pnpm test
