@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+**/node_modules/
+**/.pnpm-store/
+
+# Build output
+dist/
+coverage/
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log

@@ -1,0 +1,63 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+
+    container_name: cricket-backend
+
+    working_dir: /app
+
+    command: >
+      bash -c "
+        pnpm install --dangerously-allow-all-builds &&
+        pnpm start:dev
+      "
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
+
+    environment:
+      NODE_ENV: development
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    stdin_open: true
+    tty: true
+
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17
+
+    container_name: cricket-postgres
+
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cricket_db
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cricket_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  backend_node_modules:
