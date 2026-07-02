@@ -8,11 +8,7 @@ services:
 
     working_dir: /app
 
-    command: >
-      bash -c "
-        pnpm install --dangerously-allow-all-builds &&
-        pnpm start:dev
-      "
+    command: sh /app/docker-entrypoint.sh
 
     ports:
       - "3000:3000"
