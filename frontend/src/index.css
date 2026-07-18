@@ -552,3 +552,32 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* Admin Portal Specific Styles */
+.admin-avatar {
+  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%) !important;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.45) !important;
+}
+
+.admin-avatar-icon {
+  color: white;
+}
+
+.admin-badge {
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: #c084fc;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.admin-icon-container {
+  background: rgba(124, 58, 237, 0.1) !important;
+  border: 1px solid rgba(124, 58, 237, 0.2) !important;
+}
+
+.admin-icon-container .header-icon {
+  color: #a78bfa !important;
+}

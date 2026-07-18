@@ -27,3 +27,12 @@ model Otp {
 
   @@index([mobileNumber])
 }
+
+model Admin {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  mobileNumber String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
