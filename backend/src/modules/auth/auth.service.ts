@@ -88,6 +88,12 @@ export class AuthService {
     // Delete verified OTP so it cannot be reused
     await this.prisma.otp.delete({ where: { id: otpRecord.id } });
 
+    // Check if the mobile number matches any Admin
+    const admin = await this.prisma.admin.findFirst({
+      where: { mobileNumber },
+    });
+    const isAdmin = !!admin;
+
     // Look up or create user
     let user = await this.prisma.user.findUnique({
       where: { mobileNumber },
@@ -97,19 +103,37 @@ export class AuthService {
       user = await this.prisma.user.create({
         data: {
           mobileNumber,
-          isProfileCompleted: false,
+          isProfileCompleted: isAdmin ? true : false,
+          name: isAdmin ? 'Nikhil Mahadik' : null,
+          email: isAdmin ? 'mahadiknikhil2508@gmail.com' : null,
+        },
+      });
+    } else if (isAdmin && (!user.isProfileCompleted || user.name !== 'Nikhil Mahadik' || user.email !== 'mahadiknikhil2508@gmail.com')) {
+      user = await this.prisma.user.update({
+        where: { mobileNumber },
+        data: {
+          isProfileCompleted: true,
+          name: 'Nikhil Mahadik',
+          email: 'mahadiknikhil2508@gmail.com',
         },
       });
     }
 
-    // Generate JWT token
-    const payload = { sub: user.id, isProfileCompleted: user.isProfileCompleted };
+    // Generate JWT token including isAdmin claim if applicable
+    const payload = { 
+      sub: user.id, 
+      isProfileCompleted: user.isProfileCompleted,
+      isAdmin 
+    };
     const token = await this.jwtService.signAsync(payload);
 
     return {
       isProfileCompleted: user.isProfileCompleted,
       token,
-      user,
+      user: {
+        ...user,
+        isAdmin,
+      },
     };
   }
 
@@ -136,13 +160,21 @@ export class AuthService {
       },
     });
 
-    // Generate a fresh JWT indicating profile completion
-    const payload = { sub: updatedUser.id, isProfileCompleted: true };
+    const admin = await this.prisma.admin.findFirst({
+      where: { mobileNumber: updatedUser.mobileNumber },
+    });
+    const isAdmin = !!admin;
+
+    // Generate a fresh JWT indicating profile completion and admin status
+    const payload = { sub: updatedUser.id, isProfileCompleted: true, isAdmin };
     const token = await this.jwtService.signAsync(payload);
 
     return {
       token,
-      user: updatedUser,
+      user: {
+        ...updatedUser,
+        isAdmin,
+      },
     };
   }
 
@@ -155,6 +187,13 @@ export class AuthService {
       throw new NotFoundException('User not found.');
     }
 
-    return user;
+    const admin = await this.prisma.admin.findFirst({
+      where: { mobileNumber: user.mobileNumber },
+    });
+
+    return {
+      ...user,
+      isAdmin: !!admin,
+    };
   }
 }
