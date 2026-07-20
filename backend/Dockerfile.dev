@@ -1,5 +1,10 @@
 FROM node:24-bookworm-slim
 
+# Install OpenSSL and certificates required by Prisma and external APIs (WhatsApp)
+RUN apt-get update -y && \
+    apt-get install -y openssl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@11.9.0 --activate
