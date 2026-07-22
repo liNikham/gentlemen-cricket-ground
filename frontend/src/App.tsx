@@ -10,19 +10,14 @@ import {
   AlertCircle, 
   ShieldCheck,
   CheckCircle,
-  Lock,
   Plus,
   Edit3,
   Trash2,
   MapPin,
   Clock,
-  DollarSign,
-  Check,
   X,
   Building,
-  PhoneCall,
-  FileText,
-  Image as ImageIcon
+  PhoneCall
 } from 'lucide-react';
 
 const API_BASE = 'http://localhost:3000/auth';
@@ -87,8 +82,6 @@ export default function App() {
   const [user, setUser] = useState<UserProfile | null>(null);
 
   // Admin States
-  const [adminUsername, setAdminUsername] = useState('');
-  const [adminPassword, setAdminPassword] = useState('');
   const [adminUser, setAdminUser] = useState<AdminProfile | null>(null);
 
   // Cricket Grounds State
@@ -554,43 +547,6 @@ export default function App() {
       setStep('DASHBOARD');
     } catch (err: any) {
       setError(err.message || 'An error occurred.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // --- ADMIN AUTHENTICATION FLOW ---
-
-  const handleAdminLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    if (!adminUsername.trim() || !adminPassword.trim()) {
-      setError('Please enter both username and password.');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch(`${ADMIN_API_BASE}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: adminUsername.trim(),
-          password: adminPassword,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Invalid username or password.');
-      }
-
-      localStorage.setItem('adminToken', data.token);
-      setAdminUser({ ...data.admin, isAdmin: true });
-      setStep('DASHBOARD');
-    } catch (err: any) {
-      setError(err.message || 'Login failed.');
     } finally {
       setLoading(false);
     }
