@@ -10,9 +10,7 @@ import {
   AlertCircle, 
   ShieldCheck,
   CheckCircle,
-  Activity,
-  Lock,
-  ArrowLeft
+  Lock
 } from 'lucide-react';
 
 const API_BASE = 'http://localhost:3000/auth';
@@ -43,7 +41,7 @@ export default function App() {
   // Navigation & Common States
   const [isAdminPortal, setIsAdminPortal] = useState(false);
   const [step, setStep] = useState<Step>('HOME');
-  const [adminStep, setAdminStep] = useState<AdminStep>('LOGIN');
+  const [, setAdminStep] = useState<AdminStep>('LOGIN');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
