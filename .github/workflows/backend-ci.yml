@@ -37,8 +37,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --dangerously-allow-all-builds
 
+      - name: Generate Prisma Client
+        run: pnpm prisma generate
+
       - name: Build application
         run: pnpm build
 
       - name: Run unit tests
+        env:
+          JWT_SECRET: ci_test_jwt_secret_key_32_chars_long
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/gentlemen_cricket_test
+          WHATSAPP_MODE: console
         run: pnpm test
