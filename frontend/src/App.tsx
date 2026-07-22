@@ -64,13 +64,11 @@ interface Ground {
 }
 
 type Step = 'HOME' | 'PHONE' | 'OTP' | 'PROFILE' | 'DASHBOARD';
-type AdminStep = 'LOGIN';
 
 export default function App() {
   // Navigation & Common States
   const [isAdminPortal, setIsAdminPortal] = useState(false);
   const [step, setStep] = useState<Step>('HOME');
-  const [, setAdminStep] = useState<AdminStep>('LOGIN');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
@@ -288,7 +286,6 @@ export default function App() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('admin') === 'true' || urlParams.get('portal') === 'admin') {
       setIsAdminPortal(true);
-      setAdminStep('LOGIN');
     }
 
     const adminToken = localStorage.getItem('adminToken');
@@ -555,19 +552,15 @@ export default function App() {
   // --- COMMON LOGOUT ---
 
   const handleLogout = () => {
-    if (isAdminPortal) {
-      localStorage.removeItem('adminToken');
-      setAdminUser(null);
-      setAdminPassword('');
-      setAdminStep('LOGIN');
-    } else {
-      localStorage.removeItem('token');
-      setUser(null);
-      setMobileNumber('');
-      setName('');
-      setEmail('');
-      setStep('HOME');
-    }
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('token');
+    setUser(null);
+    setAdminUser(null);
+    setIsAdminPortal(false);
+    setMobileNumber('+91');
+    setName('');
+    setEmail('');
+    setStep('HOME');
     setError(null);
     setInfo(null);
   };
@@ -615,7 +608,6 @@ export default function App() {
               className="flex items-center gap-3 cursor-pointer select-none"
               onClick={() => {
                 setIsAdminPortal(!isAdminPortal);
-                setAdminStep('LOGIN');
                 setStep('PHONE');
                 setError(null);
                 setInfo(null);
@@ -780,7 +772,6 @@ export default function App() {
               className="flex items-center gap-2 cursor-pointer select-none"
               onClick={() => {
                 setIsAdminPortal(!isAdminPortal);
-                setAdminStep('LOGIN');
                 setError(null);
                 setInfo(null);
               }}
