@@ -36,3 +36,34 @@ model Admin {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+model CricketGround {
+  id              String   @id @default(uuid())
+  name            String
+  address         String
+  mapLocationUrl  String?
+  description     String
+  images          String[] @default([])
+  weekdayPrice    Float
+  weekendPrice    Float
+  timeSlots       String[] @default(["06:00 - 09:00", "09:00 - 12:00", "12:00 - 15:00", "15:00 - 18:00", "18:00 - 21:00", "21:00 - 00:00"])
+
+  // Facilities
+  hasParking      Boolean  @default(true)
+  hasCharging     Boolean  @default(true)
+  hasFirstAid     Boolean  @default(true)
+  hasDugout       Boolean  @default(true)
+  hasWashroom     Boolean  @default(true)
+  hasChangingRoom Boolean  @default(true)
+
+  // Responsible Contact Person
+  contactName     String
+  contactPhone    String
+
+  // Rules & Guidelines
+  rules           String
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
