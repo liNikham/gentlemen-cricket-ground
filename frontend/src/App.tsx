@@ -48,6 +48,9 @@ export default function App() {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingGround, setBookingGround] = useState<Ground | null>(null);
 
+  // Derived: computed once outside JSX to avoid TypeScript narrowing user → null/never inside conditionals
+  const isAdminView = Boolean(adminUser) || Boolean((user as UserProfile | null)?.isAdmin);
+
   // Auto session restored on load & grounds fetch
   useEffect(() => {
     fetchGrounds();
@@ -332,7 +335,7 @@ export default function App() {
             />
             <GroundGrid
               grounds={grounds}
-              isAdmin={Boolean(adminUser || user?.isAdmin)}
+              isAdmin={isAdminView}
               onBook={(g) => {
                 setBookingGround(g);
                 setShowBookingModal(true);
@@ -376,7 +379,7 @@ export default function App() {
         {(step === 'DASHBOARD' || user || adminUser) && (
           <GroundGrid
             grounds={grounds}
-            isAdmin={Boolean(adminUser)}
+            isAdmin={isAdminView}
             onBook={(g) => {
               setBookingGround(g);
               setShowBookingModal(true);
