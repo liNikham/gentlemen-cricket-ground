@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, MapPin, Phone, Edit2, Shield, Calendar } from 'lucide-react';
+import { Clock, MapPin, Phone, Edit2, Calendar } from 'lucide-react';
 import { Ground } from '../../types/ground.types';
 
 interface GroundCardProps {

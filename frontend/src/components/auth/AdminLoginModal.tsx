@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, RefreshCw, AlertCircle, KeyRound, ArrowRight } from 'lucide-react';
+import { X, ShieldCheck, RefreshCw } from 'lucide-react';
 
 interface AdminLoginModalProps {
   loading: boolean;

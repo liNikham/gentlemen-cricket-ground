@@ -144,22 +144,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     {
                       slotTime: ground.timeSlots[0] || '7:00 AM - 10:30 AM',
                       label: '🌅 Morning Slot',
-                      morningPrice: ground.morningPrice ?? ground.weekdayPrice ?? 1500,
-                      morningWeekendPrice: ground.morningWeekendPrice ?? ground.weekendPrice ?? 2500,
+                      weekdayPrice: ground.morningPrice ?? ground.weekdayPrice ?? 1500,
+                      weekendPrice: ground.morningWeekendPrice ?? ground.weekendPrice ?? 2500,
                     },
                     {
                       slotTime: ground.timeSlots[1] || '2:30 PM - 5:50 PM',
                       label: '🌇 Evening Slot',
-                      morningPrice: ground.eveningPrice ?? ground.weekdayPrice ?? 1800,
-                      morningWeekendPrice: ground.eveningWeekendPrice ?? ground.weekendPrice ?? 2800,
+                      weekdayPrice: ground.eveningPrice ?? ground.weekdayPrice ?? 1800,
+                      weekendPrice: ground.eveningWeekendPrice ?? ground.weekendPrice ?? 2800,
                     },
                   ].map((item) => {
                     const isSelected = selectedSlot === item.slotTime;
-                    const slotPriceDetails = calculateSlotPrice(
-                      { ...ground, morningPrice: item.morningPrice, morningWeekendPrice: item.morningWeekendPrice },
-                      bookingDate,
-                      item.slotTime
-                    );
+                    const isWeekend = priceDetails.isWeekend;
+                    const slotPrice = isWeekend ? item.weekendPrice : item.weekdayPrice;
 
                     return (
                       <button
@@ -180,13 +177,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         {isSelected && (
                           <div className="flex items-center justify-between pt-2 border-t border-amber-500/20">
                             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                              slotPriceDetails.isWeekend
+                              isWeekend
                                 ? 'bg-amber-500/20 text-amber-400'
                                 : 'bg-emerald-500/20 text-emerald-400'
                             }`}>
-                              {slotPriceDetails.isWeekend ? 'Weekend' : 'Weekday'}
+                              {isWeekend ? 'Weekend' : 'Weekday'}
                             </span>
-                            <span className="text-base font-mono font-bold text-amber-400">₹{slotPriceDetails.price}</span>
+                            <span className="text-base font-mono font-bold text-amber-400">₹{slotPrice}</span>
                           </div>
                         )}
                       </button>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // Types
 import { UserProfile, AdminProfile, Step } from './types/auth.types';
-import { Ground, BookingTicket } from './types/ground.types';
+import { Ground } from './types/ground.types';
 
 // Constants
 import { API_BASE, ADMIN_API_BASE, GROUNDS_API_BASE } from './constants/config';

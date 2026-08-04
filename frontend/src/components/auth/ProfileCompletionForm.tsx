@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Mail, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { User, RefreshCw, CheckCircle2 } from 'lucide-react';
 
 interface ProfileCompletionFormProps {
   name: string;
