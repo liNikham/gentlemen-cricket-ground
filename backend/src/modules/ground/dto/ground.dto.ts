@@ -6,6 +6,10 @@ export class CreateGroundDto {
   images?: string[];
   weekdayPrice: number;
   weekendPrice: number;
+  morningPrice?: number;
+  eveningPrice?: number;
+  morningWeekendPrice?: number;
+  eveningWeekendPrice?: number;
   timeSlots?: string[];
 
   // Facilities
@@ -32,6 +36,10 @@ export class UpdateGroundDto {
   images?: string[];
   weekdayPrice?: number;
   weekendPrice?: number;
+  morningPrice?: number;
+  eveningPrice?: number;
+  morningWeekendPrice?: number;
+  eveningWeekendPrice?: number;
   timeSlots?: string[];
 
   hasParking?: boolean;

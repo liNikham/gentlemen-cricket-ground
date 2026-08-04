@@ -44,9 +44,13 @@ model CricketGround {
   mapLocationUrl  String?
   description     String
   images          String[] @default([])
-  weekdayPrice    Float
-  weekendPrice    Float
-  timeSlots       String[] @default(["06:00 - 09:00", "09:00 - 12:00", "12:00 - 15:00", "15:00 - 18:00", "18:00 - 21:00", "21:00 - 00:00"])
+  weekdayPrice        Float
+  weekendPrice        Float
+  morningPrice        Float?
+  eveningPrice        Float?
+  morningWeekendPrice Float?
+  eveningWeekendPrice Float?
+  timeSlots           String[] @default(["7:00 AM - 10:30 AM", "2:30 PM - 5:50 PM"])
 
   // Facilities
   hasParking      Boolean  @default(true)

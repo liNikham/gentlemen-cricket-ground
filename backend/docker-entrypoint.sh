@@ -10,6 +10,9 @@ if [ -f "prisma/schema.prisma" ]; then
 
   echo "🗄️ Pushing database schema..."
   npx prisma db push
+
+  echo "🌱 Seeding database with sample grounds..."
+  npx prisma db seed || true
 fi
 
 exec pnpm start:dev
